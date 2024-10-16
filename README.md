@@ -1,4 +1,4 @@
-# Setup script for Mac computers
+# Setup script for Mac
 
 On a new computer, run: 
 ```zsh
