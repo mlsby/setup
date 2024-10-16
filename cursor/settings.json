@@ -1,0 +1,28 @@
+{
+    "jupyter.interactiveWindow.textEditor.executeSelection": true,
+    "notebook.formatOnSave.enabled": true,
+    "editor.formatOnSave": true,
+    "terminal.external.osxExec": "",
+    "git.ignoreRebaseWarning": true,
+    "githubPullRequests.pullBranch": "never",
+    "git.openRepositoryInParentFolders": "never",
+    "window.autoDetectColorScheme": true,
+    "security.promptForLocalFileProtocolHandling": false,
+    "jupyter.askForKernelRestart": false,
+    "search.followSymlinks": false,
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "workbench.colorTheme": "Default Light Modern",
+    "python.createEnvironment.trigger": "off",
+    "interactiveWindow.executeWithShiftEnter": true,
+    "diffEditor.renderSideBySide": false,
+    "debug.allowBreakpointsEverywhere": true,
+    "mypy.runUsingActiveInterpreter": true,
+    "redhat.telemetry.enabled": false,
+    "workbench.preferredDarkColorTheme": "Default Dark Modern",
+    "workbench.preferredLightColorTheme": "Default Light Modern"
+}

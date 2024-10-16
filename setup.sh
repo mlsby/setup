@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -47,6 +47,7 @@ apps=(
   slack
   docker
   git
+  scroll-reverser
 )
 
 for app in "${apps[@]}"; do
@@ -109,17 +110,7 @@ else
   echo "plugins=(git zsh-syntax-highlighting you-should-use zsh-bat)" >> ~/.zshrc
 fi
 
-# Add Cursor function to .zshrc
-echo "Adding Cursor function to .zshrc..."
-cursor_app_path="$HOME/Applications/Cursor.App"
-if ! grep -q "function cursor" ~/.zshrc; then
-  echo "function cursor {
-      $cursor_app_path \$@
-  }" >> ~/.zshrc
-fi
-
-# Source the .zshrc to apply the changes
-source ~/.zshrc
+echo "Oh My Zsh plugins installed successfully!"
 
 # Create repo directory and add .vscode/extensions.json
 echo "Setting up recommended Cursor extensions..."
@@ -141,15 +132,4 @@ echo "Installing Termium (Codeium terminal client)..."
 curl -L https://github.com/Exafunction/codeium/releases/download/termium-v0.2.0/install.sh | bash
 echo -e "\n\033[1mTermium installed successfully!\033[0m"
 echo "Please follow the instructions above to finalize Termium installation."
-
-# Prompt to open Cursor for recommended extensions
-echo -e "\nWould you like to open Cursor to install recommended extensions? (y/n)"
-read -r open_cursor
-if [[ "$open_cursor" == "y" || "$open_cursor" == "Y" ]]; then
-  echo "Opening repo directory..."
-  open ~/repo
-else
-  echo "You can manually open Cursor later to install the recommended extensions."
-fi
-
 echo "Setup complete!"
