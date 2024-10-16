@@ -112,21 +112,6 @@ fi
 
 echo "Oh My Zsh plugins installed successfully!"
 
-# Create repo directory and add .vscode/extensions.json
-echo "Setting up recommended Cursor extensions..."
-mkdir -p ~/repo/.vscode
-cat <<EOL > ~/repo/.vscode/extensions.json
-{
-  "recommendations": [
-    "matangover.mypy",
-    "ms-python.pylint",
-    "charliermarsh.ruff",
-    "ms-python.python",
-    "ms-python.debugpy"
-  ]
-}
-EOL
-
 # Install Termium
 echo "Installing Termium (Codeium terminal client)..."
 curl -L https://github.com/Exafunction/codeium/releases/download/termium-v0.2.0/install.sh | bash
