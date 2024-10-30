@@ -3,13 +3,10 @@
 anysphere.pyright
 charliermarsh.ruff
 eamodio.gitlens
-github.copilot
-github.copilot-chat
 github.vscode-github-actions
 github.vscode-pull-request-github
 goessner.mdmath
 grapecity.gc-excelviewer
-james-yu.latex-workshop
 kamikillerto.vscode-colorize
 kevinrose.vsc-python-indent
 matangover.mypy
