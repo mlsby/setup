@@ -99,7 +99,3 @@ extensions:
 			echo "$$extension already installed."; \
 		fi \
 	done
-
-# Run directly from GitHub:
-# all: curl -s https://raw.githubusercontent.com/mlsby/setup/main/Makefile | make -f -
-# extensions: curl -s https://raw.githubusercontent.com/mlsby/setup/main/Makefile | make -f - extensions
