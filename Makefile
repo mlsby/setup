@@ -29,7 +29,7 @@ homebrew:
 	@brew update
 
 brewbase: homebrew
-	@brew install git xz || true
+	@brew install git xz htop || true
 
 apps: homebrew
 	@echo "Installing applications..."
