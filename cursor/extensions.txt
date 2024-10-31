@@ -1,8 +1,6 @@
-1password.op-vscode
 4ops.terraform
 anysphere.pyright
 charliermarsh.ruff
-eamodio.gitlens
 github.vscode-github-actions
 github.vscode-pull-request-github
 goessner.mdmath

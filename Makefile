@@ -1,6 +1,6 @@
-.PHONY: all xcode homebrew apps git pyenv ohmyzsh plugins termium extensions
+.PHONY: all xcode homebrew brewbase apps git pyenv python ohmyzsh plugins termium
 
-all: xcode homebrew apps git pyenv ohmyzsh plugins termium extensions
+all: xcode homebrew apps git python ohmyzsh plugins 
 
 xcode:
 	@echo "Checking Xcode Command Line Tools..."
@@ -28,12 +28,22 @@ homebrew:
 	@echo "Updating Homebrew..."
 	@brew update
 
+brewbase: homebrew
+	@brew install git xz || true
+
 apps: homebrew
 	@echo "Installing applications..."
-	@brew install --cask google-chrome spotify cursor 1password slack docker scroll-reverser || true
-	@brew install git htop || true
+	@for app in google-chrome spotify cursor 1password slack docker scroll-reverser; do \
+		normalized_app=$$(echo "$$app" | sed 's/[^a-zA-Z]/ /g' | tr '[:lower:]' '[:upper:]' | xargs); \
+		if [ -z "$$(ls /Applications | grep -i "$$normalized_app.app")" ]; then \
+			echo "Installing $$app..."; \
+			brew install --cask "$$app" || true; \
+		else \
+			echo "$$app already installed."; \
+		fi; \
+	done
 
-git: homebrew
+git: brewbase
 	@echo "Setting up Git..."
 	@git config --global user.name "Lucas Molsby"
 	@git config --global user.email "lucas.molsby@gmail.com"
@@ -50,22 +60,21 @@ git: homebrew
 	@echo "Press Enter once you have added the key to GitHub..."
 	@read
 
-pyenv: homebrew
+pyenv: brewbase
 	@echo "Setting up pyenv..."
 	@if ! command -v pyenv >/dev/null 2>&1; then \
 		brew install pyenv; \
-		echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> ~/.zshrc; \
-		echo 'export PATH="$$PYENV_ROOT/bin:$$PATH"' >> ~/.zshrc; \
-		echo 'eval "$$(pyenv init --path)"' >> ~/.zshrc; \
-	else \
-		echo "pyenv already installed."; \
+		echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc; \
+		echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc; \
+		echo 'eval "$(pyenv init --path)"' >> ~/.zshrc; \
+		echo 'eval "$(pyenv init -)"' >> ~/.zshrc; \
 	fi
-	@export PYENV_ROOT="$$HOME/.pyenv"; \
-	export PATH="$$PYENV_ROOT/bin:$$PATH"; \
-	eval "$$(pyenv init -)"; \
-	PYENV_VERSION=$$(pyenv latest --known 3); \
-	pyenv install $$PYENV_VERSION || true; \
-	pyenv global $$PYENV_VERSION
+
+python: pyenv
+	@export PYENV_VERSION=$(pyenv latest --known 3)
+	@echo "Trying to install Python ${PYENV_VERSION}"
+	@pyenv install ${PYENV_VERSION} || true
+	@pyenv global ${PYENV_VERSION}
 
 ohmyzsh:
 	@echo "Installing Oh My Zsh..."
