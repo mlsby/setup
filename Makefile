@@ -17,7 +17,10 @@ homebrew:
 	@if ! command -v brew >/dev/null 2>&1; then \
 		echo "Installing Homebrew..."; \
 		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
-		echo 'eval "$$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc; \
+		if ! grep -q "/opt/homebrew/bin/brew shellenv" ~/.zshrc; then \
+			echo "Adding brew to zshrc"; \
+			echo 'eval "$$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc; \
+		fi; \
 		eval "$$(/opt/homebrew/bin/brew shellenv)"; \
 	else \
 		echo "Homebrew already installed."; \
@@ -36,6 +39,16 @@ git: homebrew
 	@git config --global user.email "lucas.molsby@gmail.com"
 	@git config --global push.autoSetupRemote true
 	@git config --global pull.rebase false
+	@echo "Generating SSH key..."
+	@if [ ! -f "$$HOME/.ssh/id_ed25519.pub" ]; then \
+		ssh-keygen -t ed25519 -C "lucas.molsby@gmail.com" -N "" -f "$$HOME/.ssh/id_ed25519"; \
+	else \
+		echo "SSH key already exists."; \
+	fi
+	@echo "Please add the following public key to your GitHub account:"
+	@cat "$$HOME/.ssh/id_ed25519.pub"
+	@echo "Press Enter once you have added the key to GitHub..."
+	@read
 
 pyenv: homebrew
 	@echo "Setting up pyenv..."
@@ -65,13 +78,13 @@ ohmyzsh:
 plugins: ohmyzsh
 	@echo "Installing Oh My Zsh plugins..."
 	@if [ ! -d "$$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then \
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"; \
+		git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "$$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"; \
 	fi
 	@if [ ! -d "$$HOME/.oh-my-zsh/custom/plugins/you-should-use" ]; then \
-		git clone https://github.com/MichaelAquilina/zsh-you-should-use.git "$$HOME/.oh-my-zsh/custom/plugins/you-should-use"; \
+		git clone git@github.com:MichaelAquilina/zsh-you-should-use.git "$$HOME/.oh-my-zsh/custom/plugins/you-should-use"; \
 	fi
 	@if [ ! -d "$$HOME/.oh-my-zsh/custom/plugins/zsh-bat" ]; then \
-		git clone https://github.com/jeffreytse/zsh-bat.git "$$HOME/.oh-my-zsh/custom/plugins/zsh-bat"; \
+		git clone git@github.com:fdellwing/zsh-bat.git "$$HOME/.oh-my-zsh/custom/plugins/zsh-bat"; \
 	fi
 	@if grep -q "plugins=(" ~/.zshrc; then \
 		sed -i '' 's/plugins=(.*)/plugins=(git zsh-syntax-highlighting you-should-use zsh-bat)/' ~/.zshrc; \
